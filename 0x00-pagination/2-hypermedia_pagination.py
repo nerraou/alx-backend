@@ -2,7 +2,7 @@
 """
 Server class
 """
-from typing import Tuple, List
+from typing import Tuple, List, Dict, Union
 from math import ceil
 import csv
 
@@ -40,8 +40,8 @@ class Server:
         """
         return page
         """
-        assert type(page) == int
-        assert type(page_size) == int
+        assert type(page) is int
+        assert type(page_size) is int
         assert page > 0
         assert page_size > 0
 
@@ -50,13 +50,14 @@ class Server:
         self.dataset()
         return self.__dataset[start:end]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> List[List]:
+    def get_hyper(self, page: int = 1,
+                  size: int = 10) -> Dict[str, Union[int, List[List], None]]:
         """
         return page with extra data
         """
-        data = self.get_page(page, page_size)
+        data = self.get_page(page, size)
 
-        total_pages = ceil(len(self.__dataset) / page_size)
+        total_pages = ceil(len(self.__dataset) / size)
 
         prev_page = None if page == 1 else page - 1
         next_page = None if page > total_pages else page + 1

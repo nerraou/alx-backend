@@ -54,18 +54,9 @@ class Server:
         """
         return page with extra data
         """
-        assert type(page) == int
-        assert type(page_size) == int
-        assert page > 0
-        assert page_size > 0
+        data = self.get_page(page, page_size)
 
-        [start, end] = index_range(page, page_size)
-
-        dataset = self.dataset()
-
-        data = dataset[start:end]
-
-        total_pages = ceil(len(dataset) / page_size)
+        total_pages = ceil(len(self.__dataset) / page_size)
 
         prev_page = None if page == 1 else page - 1
         next_page = None if page > total_pages else page + 1
@@ -73,8 +64,8 @@ class Server:
         return {
             "page_size": len(data),
             "page": page,
+            "data": data,
             "next_page": next_page,
             "prev_page": prev_page,
             "total_pages": total_pages,
-            "data": data
         }

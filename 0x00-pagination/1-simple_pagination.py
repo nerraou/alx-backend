@@ -39,8 +39,8 @@ class Server:
         """
         return page
         """
-        assert type(page) == int
-        assert type(page_size) == int
+        assert type(page) is int
+        assert type(page_size) is int
         assert page > 0
         assert page_size > 0
 

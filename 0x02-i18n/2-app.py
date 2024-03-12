@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Flask Application """
 from os import environ
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_babel import Babel
 
 app = Flask(__name__)
@@ -16,6 +16,11 @@ class Config:
 
 app.config.from_object(Config())
 babel = Babel(app)
+
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(["fr", "en"])
 
 
 @app.route("/")

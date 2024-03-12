@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
 """ Flask Application """
 from os import environ
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_babel import Babel
 
 app = Flask(__name__)
-babel = Babel(app)
-
 
 class Config:
     """app config class"""
     LANGUAGES = ["en", "fr"]
-
-    def __init__(self):
-        """init default values"""
-        self.BABEL_DEFAULT_LOCALE = "en"
-        self.BABEL_DEFAULT_TIMEZONE = "UTC"
+    BABEL_DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
 app.config.from_object(Config())
+babel = Babel(app)
+
+
+def get_locale():
+    return request.accept_languages.best_match(["fr", "en"])
 
 
 @app.route("/")

@@ -39,16 +39,24 @@ babel = Babel(app)
 @babel.localeselector
 def get_locale():
     """locale selector method"""
-    locale = None
+    languages = app.config["LANGUAGES"]
 
-    if locale in request.args:
+    if "locale" in request.args:
         locale = request.args.get("locale")
-    elif g.user is not None:
-        locale = g.user.get("locale")
-    else:
-        locale = request.accept_languages.best_match(app.config["LANGUAGES"])
+        if locale in languages:
+            return locale
 
-    if locale is not None and locale in app.config["LANGUAGES"]:
+    if g.user is not None and g.user.get("locale", "") in languages:
+        return g.user.get("locale")
+
+    if "locale" in request.headers:
+        locale = request.headers.get("locale", "")
+        if locale in languages:
+            return locale
+
+    locale = request.accept_languages.best_match(languages)
+
+    if locale is not None:
         return locale
 
     return app.config["BABEL_DEFAULT_LOCALE"]
@@ -57,7 +65,6 @@ def get_locale():
 @app.before_request
 def before_request():
     """before request handler"""
-    print(get_user())
     g.user = get_user()
 
 

@@ -25,8 +25,6 @@ def index():
 
 
 if __name__ == "__main__":
-    print("timezone", babel.default_timezone)
-    print("timezone", babel.default_locale)
     """ Main Function """
     host = environ.get('HBNB_API_HOST')
     port = environ.get('HBNB_API_PORT')

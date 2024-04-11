@@ -70,10 +70,9 @@ jobs.forEach((data) => {
     .on('progress', (progress) => {
       console.log(
         'Notification job',
-        pushNotificationCodeJob.id,
+        `#${pushNotificationCodeJob.id}`,
         `${progress}%`,
         'complete',
       );
-      // console.log('\r  job #' + job.id + ' ' + progress + '% complete with data ', data );
     });
 });
